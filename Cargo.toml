@@ -1,0 +1,90 @@
+[package]
+name = "vkengine"
+version = "0.1.0"
+edition = "2021"
+authors = ["VKEngine Contributors"]
+description = "A Vulkan-powered game engine with Iced GUI"
+license = "MIT"
+
+[[bin]]
+name = "vkengine"
+path = "src/main.rs"
+
+[lib]
+name = "vkengine"
+path = "src/lib.rs"
+
+[[example]]
+name = "sandbox"
+path = "examples/sandbox.rs"
+
+[dependencies]
+# Vulkan bindings and helpers
+ash = { version = "0.38", features = ["linked"] }
+ash-window = "0.13"
+gpu-allocator = { version = "0.26", features = ["vulkan"] }
+
+# Windowing
+winit = { version = "0.30", features = ["rwh_06"] }
+raw-window-handle = "0.6"
+
+# Iced GUI (using the winit integration)
+iced = { version = "0.13", features = ["advanced", "wgpu"] }
+iced_winit = "0.13"
+iced_wgpu = "0.13"
+
+# Math
+glam = { version = "0.29", features = ["bytemuck"] }
+bytemuck = { version = "1.16", features = ["derive"] }
+
+# Asset loading
+image = { version = "0.25", default-features = false, features = ["png", "jpeg"] }
+obj = "0.10"
+
+# Audio
+rodio = { version = "0.19", features = ["mp3", "wav"] }
+
+# Async runtime for asset streaming
+tokio = { version = "1", features = ["full"] }
+
+# Serialization
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+toml = "0.8"
+
+# Logging
+log = "0.4"
+env_logger = "0.11"
+
+# ECS
+hecs = "0.10"
+
+# Physics
+rapier3d = { version = "0.22", features = ["simd-stable"] }
+
+# Scripting (Lua)
+mlua = { version = "0.10", features = ["lua54", "vendored"] }
+
+# Utilities
+anyhow = "1"
+thiserror = "1"
+uuid = { version = "1", features = ["v4"] }
+parking_lot = "0.12"
+crossbeam-channel = "0.5"
+bitflags = "2"
+smallvec = "1"
+ahash = "0.8"
+
+[build-dependencies]
+# Shader compilation
+shaderc = "0.8"
+
+[profile.dev]
+opt-level = 1
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+
+[workspace]
