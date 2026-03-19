@@ -46,6 +46,7 @@ pub struct PhysicsWorld {
     query_pipeline:  QueryPipeline,
     event_collector: ChannelEventCollector,
     collision_recv:  crossbeam_channel::Receiver<CollisionEvent>,
+    #[allow(dead_code)] // Reserved for future collision force event handling
     contact_force_recv: crossbeam_channel::Receiver<ContactForceEvent>,
 }
 

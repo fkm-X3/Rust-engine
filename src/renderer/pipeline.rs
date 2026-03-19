@@ -84,7 +84,7 @@ impl PbrPipeline {
     }
 
     fn create_pipeline(
-        ctx: &VulkanContext,
+        _ctx: &VulkanContext,
         layout: vk::PipelineLayout,
         render_pass: vk::RenderPass,
     ) -> Result<vk::Pipeline> {

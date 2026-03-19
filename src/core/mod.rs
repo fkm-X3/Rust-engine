@@ -1,8 +1,8 @@
 use std::sync::Arc;
-use std::time::{Duration, Instant};
+use std::time::Instant;
 
 use anyhow::Result;
-use log::{debug, info};
+use log::info;
 use parking_lot::RwLock;
 use winit::{
     application::ApplicationHandler,
@@ -193,7 +193,7 @@ impl Engine {
     }
 
     /// Start the engine and enter the main loop.
-    pub fn run(mut self) -> Result<()> {
+    pub fn run(self) -> Result<()> {
         let event_loop = EventLoop::new()?;
         event_loop.set_control_flow(ControlFlow::Poll);
 

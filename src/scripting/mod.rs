@@ -1,13 +1,9 @@
-use std::collections::HashMap;
 use std::path::{Path, PathBuf};
-use std::sync::Arc;
 
 use anyhow::Result;
 use log::{error, info};
 use mlua::prelude::*;
-use parking_lot::RwLock;
 
-use crate::scene::Scene;
 
 // ─── Script ───────────────────────────────────────────────────────────────────
 
@@ -74,8 +70,8 @@ impl Script {
 
         // Math helpers
         let math = globals.get::<LuaTable>("math").map_err(|e| anyhow::anyhow!("Failed to get math table: {}", e))?;
-        math.set("vec3", lua.create_function(|_, (x, y, z): (f64, f64, f64)| {
-            let t = lua_globals_table()?; // inner fn trick
+        math.set("vec3", lua.create_function(|_, (_x, _y, _z): (f64, f64, f64)| {
+            let _t = lua_globals_table()?; // inner fn trick
             // Return a table with x/y/z
             Err::<LuaValue, _>(LuaError::RuntimeError("use glam from Rust side".into()))
         }).map_err(|e| anyhow::anyhow!("Failed to create vec3 function: {}", e))?)
@@ -191,7 +187,7 @@ impl ScriptEngine {
 
     /// Reload all scripts from disk.
     pub fn reload_all(&mut self) {
-        let dir = self.scripts_dir.clone();
+        let _dir = self.scripts_dir.clone();
         self.scripts.clear();
         if let Err(e) = self.load_all() {
             error!("Script reload failed: {}", e);

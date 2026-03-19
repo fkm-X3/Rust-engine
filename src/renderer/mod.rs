@@ -2,6 +2,7 @@ pub mod camera;
 pub mod context;
 pub mod debug;
 pub mod material;
+pub mod memory;
 pub mod mesh;
 pub mod pipeline;
 pub mod renderpass;
@@ -307,6 +308,9 @@ impl Renderer {
         for (_, (transform, mesh, _material)) in
             world.query::<(&Transform, &Mesh, &Material)>().iter()
         {
+            // Ensure mesh is uploaded to GPU (idempotent)
+            mesh.ensure_uploaded(&self.context)?;
+            
             let pc = PushConstants {
                 model: transform.matrix(),
                 view_proj,

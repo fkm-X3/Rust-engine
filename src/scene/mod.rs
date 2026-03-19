@@ -85,6 +85,11 @@ impl Scene {
     pub fn get_mut<C: hecs::Component>(&self, entity: Entity) -> Option<hecs::RefMut<'_, C>> {
         self.world.get::<&mut C>(entity).ok()
     }
+
+    /// Get total entity count in the scene.
+    pub fn entity_count(&self) -> usize {
+        self.world.len() as usize
+    }
 }
 
 impl Default for Scene {

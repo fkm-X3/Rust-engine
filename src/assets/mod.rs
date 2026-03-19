@@ -1,10 +1,8 @@
-use std::any::{Any, TypeId};
+use std::any::Any;
 use std::collections::HashMap;
 use std::path::{Path, PathBuf};
-use std::sync::{Arc, Weak};
 
 use anyhow::Result;
-use parking_lot::RwLock;
 use uuid::Uuid;
 
 // ─── Handle ───────────────────────────────────────────────────────────────────
@@ -115,6 +113,8 @@ impl AudioClip {
 
 // ─── Asset Manager ────────────────────────────────────────────────────────────
 
+// Future expansion: generic asset storage
+#[allow(dead_code)]
 type AnyMap = HashMap<Uuid, Box<dyn Any + Send + Sync>>;
 
 /// Central registry for all game assets.

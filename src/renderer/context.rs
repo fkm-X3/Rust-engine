@@ -1,5 +1,4 @@
 use std::ffi::{CStr, CString};
-use std::sync::Arc;
 
 use anyhow::{bail, Context, Result};
 use ash::{vk, Device, Entry, Instance};
@@ -340,13 +339,19 @@ impl VulkanContext {
             .fill_mode_non_solid(true)
             .wide_lines(true);
 
-        let create_info = vk::DeviceCreateInfo::default()
+        let mut create_info = vk::DeviceCreateInfo::default()
             .queue_create_infos(&queue_infos)
             .enabled_extension_names(&ext_ptrs)
-            .enabled_layer_names(&layer_ptrs)
             .enabled_features(&features)
             .push_next(&mut features12)
             .push_next(&mut features13);
+        
+        // Note: enabled_layer_names is deprecated in Vulkan 1.3+
+        // Validation layers are now controlled at instance level only
+        if !layer_ptrs.is_empty() {
+            #[allow(deprecated)]
+            { create_info = create_info.enabled_layer_names(&layer_ptrs); }
+        }
 
         Ok(unsafe { instance.create_device(physical_device, &create_info, None)? })
     }

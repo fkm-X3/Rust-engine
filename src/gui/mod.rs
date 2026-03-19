@@ -37,6 +37,7 @@ pub struct EditorState {
 
 /// Drives the Iced runtime on top of the engine window.
 pub struct GuiManager {
+    #[allow(dead_code)] // Used in future Iced integration
     window: Arc<Window>,
     state: EditorState,
     // In a full integration this holds the Iced runtime, renderer,
@@ -112,8 +113,8 @@ impl GuiManager {
 mod editor_ui {
     use super::EditorMessage;
     use iced::{
-        widget::{button, column, container, row, text, slider, horizontal_rule},
-        Element, Length, Theme,
+        widget::{button, column, container, row, text},
+        Element, Length,
     };
 
     /// Render the hierarchy panel.
@@ -125,7 +126,7 @@ mod editor_ui {
             .iter()
             .map(|&id| {
                 let label = format!("Entity {}", id);
-                let is_selected = selected == Some(id);
+                let _is_selected = selected == Some(id);
                 let btn = button(text(label))
                     .on_press(EditorMessage::EntitySelected(id));
                 btn.into()
